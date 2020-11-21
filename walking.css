@@ -1,0 +1,362 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Playfair+Display:ital,wght@1,700&display=swap');
+
+html, body {
+    background-color: rgb(206, 206, 206);
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+  }
+
+a:-webkit-any-link {
+    color: inherit;
+    text-decoration: none;
+}
+
+
+  canvas {
+    z-index: 100;
+    position: fixed;
+    top: 0;
+    pointer-events: none;
+  }
+
+  #panelBtn {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 200;
+  }
+
+  #floor {
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    position: relative;
+    pointer-events: none;
+  }
+  #GroundImg {
+    width: 1000px;
+    height: 400px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  @media only screen and (max-width: 1000px) {
+    #GroundImg {
+      width: 100vw;
+      height: 40vw;
+  }
+  @media only screen and (max-width: 800px) {
+    #GroundImg {
+      transform: translate(-50%, 20%);
+    }
+  }
+  @media only screen and (max-width: 420px) {
+    #GroundImg {
+      transform: translate(-50%, 0);
+      top: unset;
+      bottom: 40px;
+    }
+  }
+}
+
+  #topPanel{
+    height: 50px;
+    width: 100%;
+    position: fixed;
+    bottom: -100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition-duration: 300ms;
+    z-index: 900;
+    background: rgb(34,34,34);
+  }
+
+  #topPanel a {
+    z-index: 999;
+  }
+  /* #topPanel {
+    z-index: 0;
+  } */
+  #issueHDiv {
+    display: none;
+  }
+
+  .infoBtn {
+    height: 49px;
+    width: fit-content;
+    margin: 0 20px;
+    /* background-color: rgb(224, 224, 216); */
+    position: relative;
+    display: flex;
+    color: rgb(224, 224, 216);
+    cursor: pointer;
+    font-size: 0.9em;
+  }
+  .infoBtn img {
+    height: 40px;
+    width: 40px;
+    margin-top: 3px;
+  }
+  .infoBtn:hover {
+    opacity: 0.5;
+    transition-duration: 300ms;
+  }
+
+  #bottomPanel {
+    height: 120px;
+    width: 100%;
+    position: fixed;
+    bottom: -200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 700;
+    transition-duration: 300ms;
+    color: rgb(224, 224, 216);
+    /* box-shadow: 0 0 4px 2px rgba(0,0,0,0.3); */
+  }
+  #prevIssue, #nextIssue {
+    width: calc((100% - 700px)/2);
+    height: 100%;
+    margin: 0;
+    position: absolute;
+  }
+  #prevIssue {
+    left: 0;
+  }
+  #prevIssue img {
+    right: 10px;
+  }
+  #nextIssue {
+    right: 0;
+  }
+  #nextIssue img {
+    left: 10px;
+  }
+  #thisIssue {
+    text-align: center;
+    width: 700px;
+    max-width: 100%;
+  }
+  .issueH1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    margin: 0 auto 10px auto;
+    width: 700px;
+    max-width: 80%;
+  }
+
+  .issueP {
+    width: 700px;
+    margin: 0 auto;
+    max-width: 80%;
+  }
+  img.arrows {
+    width: 70px;
+    height: 70px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  img.arrows:hover {
+    opacity: 0.5;
+    transition-duration: 300ms;
+  }
+  @media only screen and (max-width: 1000px){
+    #prevIssue, #nextIssue {
+      width: calc((100% - 500px)/2);
+    }
+    #thisIssue {
+      width: 500px;
+    }
+  }
+
+  @media only screen and (max-width: 800px){
+    #topPanel{
+      height: -moz-fit-content;
+      height: fit-content;
+      display: block;
+      top: -100%;
+      opacity: 0;
+      background: rgba(44, 32, 32, 0.9);
+      box-shadow: none;
+    }
+    #topPanel {
+      z-index: 750;
+    }
+    .infoBtn {
+      width: 100%;
+      margin: 0;
+      padding-left: 10px;
+      border-bottom: rgb(102, 102, 102) 1px solid;
+    }
+    #shareBtn {
+      border-bottom: none;
+    }
+    #issueHDiv {
+      display: block;
+      padding: 10px 0;
+      text-align: center;
+      height: min-content;
+    }
+
+    #bottomPanel {
+      display: block;
+      height: 50px;
+      bottom: -150px;
+      opacity: 0;
+      box-shadow: none;
+    }
+    #prevIssue, #nextIssue {
+      width: 50%;
+      height: 50px;
+      margin: 0;
+      display: inline-block;
+      z-index: 800;
+  }
+  #thisIssue {
+    display: none;
+    /* width: 700px;
+    max-width: 80%;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%); */
+  }
+  .issueH1 {
+    margin: 10px auto;
+    color: rgb(224, 224, 216);
+    max-width: 90%;
+    font-size: 20px;
+  }
+  .issueP {
+    color: rgb(224, 224, 216);
+    margin: 10px auto;
+    max-width: 90%;
+  }
+}
+@media only screen and (max-width: 400px) {
+  #issueH1 {
+    margin: 70px auto 10px auto;
+    max-width: 90%;
+  }
+  #issueP {
+    max-width: 90%;
+  }
+}
+
+
+  /* spinner */
+	.loadingSpinner {
+		position: relative;
+		width: 80px;
+		height: 80px;
+		margin: 40vh auto;
+  }
+  @keyframes loadingSpinnerAnimation {
+		0%, 100% { opacity: 1;}
+		50% { opacity: 0.5;}
+	}
+	.loadingSpinner div {
+		position: absolute;
+		width: 10px;
+		height: 10px;
+		border-radius: 50%;
+		background: #222;
+		animation: loadingSpinnerAnimation 1.2s linear infinite;
+	}
+	.loadingSpinner div:nth-child(1) {
+		top: 8px;
+		left: 8px;
+		animation-delay: 0s;
+	}
+	.loadingSpinner div:nth-child(2) {
+		background-color: #DA2C5E;
+		top: 8px;
+		left: 32px;
+		animation-delay: -0.4s;
+	}
+	.loadingSpinner div:nth-child(3) {
+		top: 8px;
+		left: 56px;
+		animation-delay: -0.8s;
+	}
+	.loadingSpinner div:nth-child(4) {
+		background-color: #DA2C5E;
+		top: 32px;
+		left: 8px;
+		animation-delay: -0.4s;
+	}
+	.loadingSpinner div:nth-child(5) {
+		top: 32px;
+		left: 32px;
+		animation-delay: -0.8s;
+	}
+	.loadingSpinner div:nth-child(6) {
+		background-color: #DA2C5E;
+		top: 32px;
+		left: 56px;
+		animation-delay: -1.2s;
+	}
+	.loadingSpinner div:nth-child(7) {
+		top: 56px;
+		left: 8px;
+		animation-delay: -0.8s;
+	}
+	.loadingSpinner div:nth-child(8) {
+		background-color: #DA2C5E;
+		top: 56px;
+		left: 32px;
+		animation-delay: -1.2s;
+	}
+	.loadingSpinner div:nth-child(9) {
+		top: 56px;
+		left: 56px;
+		animation-delay: -1.6s;
+	}
+
+/** modal **/
+
+	 #modalBG {
+		position: fixed;
+		background: rgba(206, 206, 206, 0.9);
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100vh;
+		z-index: 9999;
+  } 
+  
+  #copied {
+    position: fixed;
+    width: 200px;
+    height: 20px;
+    padding: 20px;
+    top: 20px;
+    right: -320px;
+    background: rgb(255, 53, 98);
+    color: rgb(224, 224, 216);
+    z-index: 1000;
+    font-weight: 700;
+    transition-duration: 300ms;
+  }
+
+  @media only screen and (max-width: 800px) {
+    #copied {
+      top: unset;
+      bottom: 20px;
+    }
+  }
