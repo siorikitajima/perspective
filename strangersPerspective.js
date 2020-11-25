@@ -398,16 +398,7 @@ function panelControl() {
 // Update the pannel color & info
     if(pauseSwitch) {  
       noLoop();
-      issueHDiv.style('background-color','rgb('+ colorList[c].r + ',' + colorList[c].g + ',' + colorList[c].b + ')');
-      bottomPanel.style('background-color','rgb('+ colorList[c].r + ',' + colorList[c].g + ',' + colorList[c].b + ')');
-      prevIssue.style('background-color','rgb('+ colorList[pr].r + ',' + colorList[pr].g + ',' + colorList[pr].b + ')');
-      nextIssue.style('background-color','rgb('+ colorList[ne].r + ',' + colorList[ne].g + ',' + colorList[ne].b + ')');
-      bottomPanel.style('opacity','1');
-      issueH.style('color','rgb(224, 224, 216)');
-      issueH.html(issueData[c].h1);
-      issueHM.html(issueData[c].h1);
-      issueP.html(issueData[c].body);
-      issuePM.html(issueData[c].body);
+      updateIssuePanel();
       (width < 800) ? bottomPanel.style('top','0') : bottomPanel.style('bottom','0');
       (width < 800) ? topPanel.style('top','50px') : topPanel.style('bottom','120px');
       if (width < 800) {topPanel.style('opacity','1');}
@@ -428,6 +419,7 @@ function previousColor() {
   colorSwitch = (c == 0) ? 13 : c -1;
   pauseSwitch = true;
   updateGround();
+  updateIssuePanel();
 };
 
 function nextColor() {
@@ -435,12 +427,29 @@ function nextColor() {
   colorSwitch = (c == 13) ? 0 : c +1;
   pauseSwitch = true;
   updateGround();
+  updateIssuePanel();
 };
 
 function updateGround(){
   var c = colorSwitch;
   var theImg = groundImgData[c].name;
   GroundImg.attribute('src', theImg);
+}
+
+function updateIssuePanel(){
+  var c = colorSwitch;
+  var pr = (c == 0) ? 13 : c - 1;
+  var ne = (c == 13) ? 0 : c + 1;
+      issueHDiv.style('background-color','rgb('+ colorList[c].r + ',' + colorList[c].g + ',' + colorList[c].b + ')');
+      bottomPanel.style('background-color','rgb('+ colorList[c].r + ',' + colorList[c].g + ',' + colorList[c].b + ')');
+      prevIssue.style('background-color','rgb('+ colorList[pr].r + ',' + colorList[pr].g + ',' + colorList[pr].b + ')');
+      nextIssue.style('background-color','rgb('+ colorList[ne].r + ',' + colorList[ne].g + ',' + colorList[ne].b + ')');
+      bottomPanel.style('opacity','1');
+      issueH.style('color','rgb(224, 224, 216)');
+      issueH.html(issueData[c].h1);
+      issueHM.html(issueData[c].h1);
+      issueP.html(issueData[c].body);
+      issuePM.html(issueData[c].body);
 }
 
 function learnLinkOpen(){
