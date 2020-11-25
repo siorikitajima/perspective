@@ -389,33 +389,29 @@ function updateGround(){
 }
 
 function learnLinkOpen(){
-  // var learnURL = 'https://strangersinmyhead.info/explore/' + issueData[colorSwitch].slug;
-  var learnURL = 'http://dev.strangersinmyhead.info/explore/' +issueData[colorSwitch].slug;
-  // var learnURL = 'https://siorikitajima.github.io/strangers/#/explore/' + issueData[colorSwitch].slug;
+  var learnURL = 'https://strangersinmyhead.info/explore/' + issueData[colorSwitch].slug;
+  // var learnURL = 'http://dev.strangersinmyhead.info/explore/' +issueData[colorSwitch].slug;
   clearCache();
   window.open(learnURL, "_parent");
 }
 
 function helpLinkOpen(){
-  // var helpURL = 'https://strangersinmyhead.info/help/' + issueData[colorSwitch].help;
-  var helpURL = 'http://dev.strangersinmyhead.info/help/' +issueData[colorSwitch].help;
-  // var helpURL = 'https://siorikitajima.github.io/strangers/#/help/' + issueData[colorSwitch].help;
+  var helpURL = 'https://strangersinmyhead.info/help/' + issueData[colorSwitch].help;
+  // var helpURL = 'http://dev.strangersinmyhead.info/help/' +issueData[colorSwitch].help;
   clearCache();
   window.open(helpURL, "_parent");
 }
 
 function voicesLinkOpen(){
-  // var voicesURL = 'https://strangersinmyhead.info/voices/';
-  var voicesURL = 'http://dev.strangersinmyhead.info/voices/';
-  // var voicesURL = 'https://siorikitajima.github.io/strangers/#/voices/';
+  var voicesURL = 'https://strangersinmyhead.info/voices/';
+  // var voicesURL = 'http://dev.strangersinmyhead.info/voices/';
   clearCache();
   window.open(voicesURL, "_parent");
 }
 
 function shareLinkOpen(){
-  // var shareURL = 'https://strangersinmyhead.info/info/' + colorSwitch + '/' + issueData[colorSwitch].slug;
-  var shareURL = 'http://dev.strangersinmyhead.info/info/' + colorSwitch + '/' + issueData[colorSwitch].slug;
-  // var shareURL = 'https://siorikitajima.github.io/strangers/#/info/' + colorSwitch + '/' + issueData[colorSwitch].slug;
+  var shareURL = 'https://strangersinmyhead.info/info/' + colorSwitch + '/' + issueData[colorSwitch].slug;
+  // var shareURL = 'http://dev.strangersinmyhead.info/info/' + colorSwitch + '/' + issueData[colorSwitch].slug;
   var dummy = document.createElement("textarea");
   document.body.appendChild(dummy);
   dummy.value = shareURL;
