@@ -343,7 +343,16 @@ function panelControl() {
 // Update the pannel color & info
     if(pauseSwitch) {  
       noLoop();
-      updateIssuePanel();
+      issueHDiv.style('background-color','rgb('+ colorList[c].r + ',' + colorList[c].g + ',' + colorList[c].b + ')');
+      bottomPanel.style('background-color','rgb('+ colorList[c].r + ',' + colorList[c].g + ',' + colorList[c].b + ')');
+      prevIssue.style('background-color','rgb('+ colorList[pr].r + ',' + colorList[pr].g + ',' + colorList[pr].b + ')');
+      nextIssue.style('background-color','rgb('+ colorList[ne].r + ',' + colorList[ne].g + ',' + colorList[ne].b + ')');
+      bottomPanel.style('opacity','1');
+      issueH.style('color','rgb(224, 224, 216)');
+      issueH.html(issueData[c].h1);
+      issueHM.html(issueData[c].h1);
+      issueP.html(issueData[c].body);
+      issuePM.html(issueData[c].body);
       (width < 800) ? bottomPanel.style('top','0') : bottomPanel.style('bottom','0');
       (width < 800) ? topPanel.style('top','50px') : topPanel.style('bottom','120px');
       if (width < 800) {topPanel.style('opacity','1');}
