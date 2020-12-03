@@ -1,5 +1,5 @@
 # Perspective
-[*Perspective*](https://siorikitajima.github.io/perspective/) is a generative data visualization animation initially created for the Singapore based mental health resource site strangersinmyhead.info by [Siori Kitajima](siorikitajima.com) and [PatternBased](patternbased.com)
+[*Perspective*](https://siorikitajima.github.io/perspective/) is a generative data visualization animation initially created for the Singapore based mental health resource site strangersinmyhead.info by [Siori Kitajima](https://siorikitajima.com) and [PatternBased](https://patternbased.com)
 
 # 
 
@@ -10,7 +10,7 @@ This generative animation shows how many people in Singapore have experienced me
 
 20 silhouetted characters walk past the screen randomly, their color generated from this array: 'model'. A color ID assigned to each character is picked randomly from the model (in v1.0, 700 samples are in the model) every time. 
 
-These numbers are based on real world stats and adapted a bit to make sense as a whole. The current numbers are set purely for creating a somewhat realistic simulation, but not intended to be scientifically correct, unfortunately. The excuse is that we didn't find a perfect set of numbers that contain all the issues in the same region at the same time period, and had to patch different studies, adjusting to make up for minor conflicts. We are itching to update this with a perfect dataset one day. Please let [us](patternbased.com/contact) know if you ever come across a better study.
+These numbers are based on real world stats and adapted a bit to make sense as a whole. The current numbers are set purely for creating a somewhat realistic simulation, but not intended to be scientifically correct, unfortunately. The excuse is that we didn't find a perfect set of numbers that contain all the issues in the same region at the same time period, and had to patch different studies, adjusting to make up for minor conflicts. We are itching to update this with a perfect dataset one day. Please let [us](https://patternbased.com/contact) know if you ever come across a better study.
 
 Below is the break down of the model we used for v1.0.
 
@@ -48,7 +48,7 @@ When the screen is clicked, a popup shows up with a description and correspondin
 2. URLs are managed in [strangersPerspective.js](strangersPerspective.js) under learnLinkOpen() and the three functions underneath.
 
 ### ::: Animation spritesheets ::: 
-Download [this Adobe Illustror file of all 20 characters](vectorWalkers/20Characters_Perspective.ai) in the editable vector format which you can change the color and/or the movements. Export artboards as transparent PNG and add them into [walkers folder](walkers).
+Download [this Adobe Illustror file of all 20 characters](vectorWalkers) in the editable vector format which you can change the color and/or the movements. Export artboards as transparent PNG and add them into [walkers folder](walkers).
 These sprites are made in 200px width x 300px height. If you replace spritesheets with your original animation in different dimension, don't forget to update [strangersPerspective.js](strangersPerspective.js) 'CONFIG' section on the top.
 
 ### ::: Floor images ::: 
