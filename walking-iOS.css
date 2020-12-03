@@ -361,3 +361,31 @@ a:-webkit-any-link {
       bottom: 20px;
     }
   }
+
+  #githubBtn {
+    height: 40px;
+    width: 100px;
+    border: #222222 2px solid;
+    border-radius: 20px;
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 2000;
+    display: flex;
+    opacity: 0.4;
+    transition-duration: 300ms;
+  }
+  #githubBtn img {
+    height: 28px;
+    margin: 6px;
+  }
+  #githubBtn p {
+    font-size: 0.9em;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    margin-top: 12px;
+  }
+  #githubBtn:hover {
+    opacity: 0.2;
+    transition-duration: 300ms;
+  }

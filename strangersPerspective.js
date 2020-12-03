@@ -1,9 +1,31 @@
+/// Created by Siori Kitajima
+/// https://siorikitajima.com/
+/// for http://strangersinmyhead.info/
+/// GNU GENERAL PUBLIC LICENSE V3
+/// https://www.gnu.org/licenses/gpl-3.0.en.html
+
+///////////////////////// CONFIG
+
+var spriteWidth = 200; // Character animation sprite width
+var spriteHeight = 300; // Character animation sprite height
+var spriteFrames = 6; // Character animation sprite frame number
+var charaInARow = 4; // Total number of characters in the row each side at once
+// Responsive screen sizes
+var screenWidthLarge = 1200;
+var screenWidthTablet = 800;
+var screenWidthPhone = 480;
+// Character speed for each screen sizes
+var speedLargeScreen = 0.8;
+var speedDefault = 0.7;
+var speedTablet = 0.5;
+var speedPhone = 0.35;
+
+///////////////////////// END CONFIG
+
 var pauseSwitch = true;
 var infoSwitch = false;
 var loadSwitch = false;
-var colorSwitch = 7; // Default to set as Gray
-var charaInARow = 4; // Total number of characters in the row each side at once
-
+var colorSwitch = 7; // The color key is set Gray as default
 var mainFont, bodyFont;
 var topRowR, topRowL, secondRowR, secondRowL, thirdRowR, thirdRowL, fourthRowR, fourthRowL, fifthRowR, fifthRowL;
 
@@ -24,8 +46,8 @@ var icons = [
   {name:'help', img:'images/infoIcons_help.png'}, 
   {name:'voices', img:'images/infoIcons_voices.png'}];
 
-// Charactor Data
-var charactorList = [
+// character Data
+var characterList = [
   { name:'tiny', id:'0',
     anime: ['tiny_pink', 'tiny_emerald', 'tiny_yellow', 'tiny_purple', 'tiny_orange', 'tiny_blue', 'tiny_red', 'tiny_gray', 'tiny_teal', 'tiny_coral', 'tiny_lavendar', 'tiny_sky', 'tiny_maroon', 'tiny_green']}, 
   { name:'peter', id:'1',
@@ -97,13 +119,13 @@ function preload() {
       for(var cn=0; cn<colorList[c].number;cn++){
         colorArray.push(colorList[c].id);
     }}
-    // Prepare all charactor animations x 14 Colors
-    for(var ch=0; ch<charactorList.length;ch++){
+    // Prepare all character animations x 14 Colors
+    for(var ch=0; ch<characterList.length;ch++){
       for(var c=0; c<colorList.length;c++){
-        animName = charactorList[ch].name + colorList[c].name + '_anim';
-        animImgA = 'walkers/' + charactorList[ch].name + colorList[c].name +'.png';
-        animName = loadSpriteSheet(animImgA, 200, 300, 6);
-        charactorList[ch].anime[c] = loadAnimation(animName);
+        animName = characterList[ch].name + colorList[c].name + '_anim';
+        animImgA = 'walkers/' + characterList[ch].name + colorList[c].name +'.png';
+        animName = loadSpriteSheet(animImgA, spriteWidth, spriteHeight, spriteFrames);
+        characterList[ch].anime[c] = loadAnimation(animName);
       }
     }
 
@@ -132,10 +154,10 @@ function preload() {
 p5.disableFriendlyErrors = true;
 
 function setup() {
+  // Clearing canvas
     if (typeof canvas === "object" && canvas !== null) {
         canvas.width = 0;
         canvas.height = 0;
-    
         canvas.remove();
         delete canvas;
         canvas = null;
@@ -146,43 +168,45 @@ function setup() {
   topRowL = new Group(); secondRowL = new Group(); thirdRowL = new Group(); fourthRowL = new Group(); fifthRowL = new Group();
 
 // Setup size, speed and position of each row group
+// -- To increase the density of each row, make "x" value smaller
+// -- To change the overall speed of each row, modify "speed". 
+// -- To change which character show up in the row, modify "start", which is refering characterList ID. This is to avoid too many same character show on the screen at once. When the character arrives to the other end of the screen, it will come back to starting point as a different character.
 playListR = [
-    {"rowID": topRowR, "x": width*2, "y":height/8, "scale":0.4, "speed": -3, "start":0},
-    {"rowID": secondRowR, "x": width*2.5, "y":height/5, "scale":0.5, "speed": -4, "start":8},
-    {"rowID": thirdRowR, "x": width*3, "y":height/3, "scale":0.7, "speed": -5, "start":16},
-    {"rowID": fourthRowR, "x": width*3.5, "y":height/2, "scale":1, "speed": -6.5, "start":4},
-    {"rowID": fifthRowR, "x": width*4, "y":height-110, "scale":1.4, "speed": -8, "start":12}];
+    {"rowID": topRowR, "x": width*2, "y":height/8, "scale":0.4, "speed": -1.5, "start":0},
+    {"rowID": secondRowR, "x": width*2.5, "y":height/5, "scale":0.5, "speed": -2, "start":8},
+    {"rowID": thirdRowR, "x": width*3, "y":height/3, "scale":0.7, "speed": -2.5, "start":16},
+    {"rowID": fourthRowR, "x": width*3.5, "y":height/2, "scale":1, "speed": -3.25, "start":4},
+    {"rowID": fifthRowR, "x": width*4, "y":height-110, "scale":1.4, "speed": -4, "start":12}];
 playListL = [
-    {"rowID": topRowL, "x": -(width), "y":height/8 + 20, "scale":0.45, "speed": 3, "start":4},
-    {"rowID": secondRowL, "x": -(width*1.5), "y":height/5 + 30, "scale":0.55, "speed": 4, "start":12},
-    {"rowID": thirdRowL, "x": -(width*2), "y":height/3 + 40, "scale":0.75, "speed": 5, "start":0},
-    {"rowID": fourthRowL, "x": -(width*2.5), "y":height/2 + 50, "scale":1.05, "speed": 6.5, "start":8},
-    {"rowID": fifthRowL, "x": -(width*3), "y":height-90, "scale":1.45, "speed": 8, "start":16}];
+    {"rowID": topRowL, "x": -(width), "y":height/8 + 20, "scale":0.45, "speed": 1.5, "start":4},
+    {"rowID": secondRowL, "x": -(width*1.5), "y":height/5 + 30, "scale":0.55, "speed": 2, "start":12},
+    {"rowID": thirdRowL, "x": -(width*2), "y":height/3 + 40, "scale":0.75, "speed": 2.5, "start":0},
+    {"rowID": fourthRowL, "x": -(width*2.5), "y":height/2 + 50, "scale":1.05, "speed": 3.25, "start":8},
+    {"rowID": fifthRowL, "x": -(width*3), "y":height-90, "scale":1.45, "speed": 4, "start":16}];
 
 // Assign sprites to Right Rows
     for(var r=0; r<playListR.length;r++){
       for(var ch = 0; ch < charaInARow; ch++){
-        var chs = playListR[r].start + ch; // The character to load
-        var randomColor = floor(random(0, 699.9));
+        var chs = playListR[r].start + ch; // The character ID to start loading for the row
+        var randomColor = floor(random(0, colorArray.length - 0.1));
         var coId = colorArray[randomColor]; // Pull a color from the array
         var randomX = random(0.01, 1);
-        // Set X position
+        // Set starting X position of characters
         var rightrowX = map(randomX, 0, 1, width, playListR[r].x); 
-        if (width > 1200) {rightrowX = rightrowX;}
-        else if (width < 800) {rightrowX = rightrowX * 1.5;}
-        else if (width < 480) {rightrowX = rightrowX * 2;}
-        var animSpr = charactorList[chs].name + colorList[coId].name + 'R_spr';
-        var animLab = str(charactorList[chs].id + 'R' + coId);
-        charactorList[chs].anime[coId].frameDelay = floor(random(4,6.9)); // Sprite animation frame delay: the bigger number the greater delay
-        animSpr = createSprite(rightrowX, playListR[r].y, 200, 300);
-        // Set scale
-        if (width < 800) {animSpr.scale = playListR[r].scale * 0.8;}
-        else if (width < 480) {animSpr.scale = playListR[r].scale * 0.4;}
+        if (width > screenWidthLarge) {leftrowX = leftrowX;}
+        else if (width < screenWidthTablet) {rightrowX = rightrowX * 1.5;}
+        else if (width < screenWidthPhone) {rightrowX = rightrowX * 2;}
+        var animSpr = characterList[chs].name + colorList[coId].name + 'R_spr';
+        var animLab = str(characterList[chs].id + 'R' + coId);
+        characterList[chs].anime[coId].frameDelay = floor(random(4,6.9)); // Sprite animation frame delay: the bigger number the greater delay
+        animSpr = createSprite(rightrowX, playListR[r].y, spriteWidth, spriteHeight);
+        // Scale characters for smaller screen sizes
+        if (width < screenWidthTablet) {animSpr.scale = playListR[r].scale * 0.8;}
+        else if (width < screenWidthPhone) {animSpr.scale = playListR[r].scale * 0.4;}
         else { animSpr.scale = playListR[r].scale;}
-        
-        animSpr.addAnimation(animLab, charactorList[chs].anime[coId]);
-        //// Get color ID when clicked and hover
-        animSpr.setCollider("rectangle", 35, 0, 130, 230);
+        animSpr.addAnimation(animLab, characterList[chs].anime[coId]);
+        // Get the color ID of the character when clicked and hover
+        animSpr.setCollider("rectangle", 35, 0, spriteWidth * 0.7, spriteHeight * 0.7);
         animSpr.onMousePressed = function() {
           var newLabel = this.getAnimationLabel();
           var separatedLabel = split(newLabel, 'R');
@@ -203,25 +227,25 @@ playListL = [
     for(var r = 0; r < playListL.length; r++){
       for(var ch=0; ch < charaInARow; ch++){
         var chs = playListL[r].start + ch;
-        var randomColor = floor(random(0, 699.9));
+        var randomColor = floor(random(0, colorArray.length - 0.1));
         var coId = colorArray[randomColor];
         var randomX = random(0.01, 1);
-        // Set X position
+        // Set starting X position of characters
         var leftrowX = playListL[r].x * randomX; 
-        if (width > 1200) {leftrowX = leftrowX * 0.75;}
-        else if (width < 800) {leftrowX = leftrowX * 2;}
-        else if (width < 480) {leftrowX = leftrowX * 3;}
-        var animSpr = charactorList[chs].name + colorList[coId].name + 'L_spr';
-        var animLab = str(charactorList[chs].id + 'L' + coId);
-        charactorList[chs].anime[coId].frameDelay = floor(random(4,6.9));
-        animSpr = createSprite(leftrowX, playListL[r].y, 200, 300);
-        // Set scale
-        if (width < 800) {animSpr.scale = playListL[r].scale * 0.8;}
-        else if (width < 480) {animSpr.scale = playListL[r].scale * 0.4;}
+        if (width > screenWidthLarge) {leftrowX = leftrowX * 0.75;}
+        else if (width < screenWidthTablet) {leftrowX = leftrowX * 2;}
+        else if (width < screenWidthPhone) {leftrowX = leftrowX * 3;}
+        var animSpr = characterList[chs].name + colorList[coId].name + 'L_spr';
+        var animLab = str(characterList[chs].id + 'L' + coId);
+        characterList[chs].anime[coId].frameDelay = floor(random(4,6.9));
+        animSpr = createSprite(leftrowX, playListL[r].y, spriteWidth, spriteHeight);
+        // Scale characters for smaller screen sizes
+        if (width < screenWidthTablet) {animSpr.scale = playListL[r].scale * 0.8;}
+        else if (width < screenWidthPhone) {animSpr.scale = playListL[r].scale * 0.4;}
         else { animSpr.scale = playListL[r].scale;}
-        animSpr.addAnimation(animLab, charactorList[chs].anime[coId]);
-        //// Get color ID when clicked and hover
-        animSpr.setCollider("rectangle", 35, 0, 130, 230);
+        animSpr.addAnimation(animLab, characterList[chs].anime[coId]);
+        // Get the color ID of the character when clicked and hover
+        animSpr.setCollider("rectangle", 35, 0, spriteWidth * 0.7, spriteHeight * 0.7);
         animSpr.onMousePressed = function() {
           var newLabel = this.getAnimationLabel();
           var separatedLabel = split(newLabel, 'L');
@@ -251,40 +275,40 @@ for(var row=0; row < playListR.length; row++){
     cloneRow.splice(i,1);
     var delayValue = floor(random(4,6.9));
     var mappin = map((i + 1) / delayValue, 1/5, rowID.length/3, 0.8, 1.6); 
-    // Set velocity
+    // Set the velocity of the character
     var speedControl;
-    if (width > 1200) {speedControl = playListR[row].speed * 0.5 * mappin;}
-    else if (width < 800) {speedControl = playListR[row].speed * 0.3 * mappin;}
-    else if (width < 480) {speedControl = playListR[row].speed * 0.1 * mappin;}
-    else {speedControl = playListR[row].speed * 0.4 * mappin;}
+    if (width > screenWidthLarge) {speedControl = playListR[row].speed * speedLargeScreen * mappin;}
+    else if (width < screenWidthPhone) {speedControl = playListR[row].speed * speedPhone * mappin;}
+    else if (width < screenWidthTablet) {speedControl = playListR[row].speed * speedTablet * mappin;}
+    else {speedControl = playListR[row].speed * speedDefault * mappin;}
     thisSpr.velocity.x = speedControl;
-    //// When arrive to the left ent, it changes color and character and come back to the starting position
-     if (thisSpr.position.x < - 200) {
+    //// When the character arrives to the left end of the screen, it changes color and character ID and come back to the starting position
+     if (thisSpr.position.x < - spriteWidth) {
         var oldLabel = thisSpr.getAnimationLabel();
         thisSpr.remove();
         var separateLabel = split(oldLabel, 'R');
-        for(var ch=0; ch<charactorList.length; ch++){
-        var randomColor = floor(random(0, 699.9));
+        for(var ch=0; ch<characterList.length; ch++){
+        var randomColor = floor(random(0, colorArray.length - 0.1));
         var coId = colorArray[randomColor];
         var oldCharaId = int(separateLabel[0]);
-        var charaId = (oldCharaId > charactorList.length - charaInARow - 2) ? oldCharaId + charaInARow + 1 - charactorList.length : oldCharaId + charaInARow + 1;
+        var charaId = (oldCharaId > characterList.length - charaInARow - 2) ? oldCharaId + charaInARow + 1 - characterList.length : oldCharaId + charaInARow + 1;
         var newR_label = charaId + 'R' + coId;
         var randomX = random(0.01, 1);
-        // Set X position
+        // X position
         var rightrowX = map(randomX, 0, 1, width, playListR[row].x); 
-        if (width > 1200) {rightrowX = rightrowX;}
-        else if (width < 800) {rightrowX = rightrowX * 1.5;}
-        else if (width < 480) {rightrowX = rightrowX * 2;}
-        var newSpr = createSprite(rightrowX, playListR[row].y, 200, 300);
-        // Set scale
-        if (width < 800) {newSpr.scale = playListR[row].scale * 0.8;}
-        else if (width < 480) {newSpr.scale = playListR[row].scale * 0.4;}
+        if (width > screenWidthLarge) {rightrowX = rightrowX;}
+        else if (width < screenWidthTablet) {rightrowX = rightrowX * 1.5;}
+        else if (width < screenWidthPhone) {rightrowX = rightrowX * 2;}
+        var newSpr = createSprite(rightrowX, playListR[row].y, spriteWidth, spriteHeight);
+        // Scale
+        if (width < screenWidthTablet) {newSpr.scale = playListR[row].scale * 0.8;}
+        else if (width < screenWidthPhone) {newSpr.scale = playListR[row].scale * 0.4;}
         else { newSpr.scale = playListR[row].scale;}
-        charactorList[charaId].anime[coId].frameDelay = delayValue;
-        newSpr.addAnimation(newR_label, charactorList[charaId].anime[coId]);
+        characterList[charaId].anime[coId].frameDelay = delayValue;
+        newSpr.addAnimation(newR_label, characterList[charaId].anime[coId]);
         }
         //Get color ID from new sprites
-        newSpr.setCollider("rectangle", 35, 0, 130, 230);
+        newSpr.setCollider("rectangle", 35, 0, spriteWidth * 0.7, spriteHeight * 0.7);
         newSpr.onMousePressed = function() {
           var newLabel = this.getAnimationLabel();
           var separatedLabel = split(newLabel, 'R');
@@ -312,37 +336,38 @@ for(var row=0; row < playListL.length; row++){
     thisSpr.mirrorX(-1);
     // Set velocity
     var speedControl;
-    if (width > 1200) {speedControl = playListL[row].speed * 0.4 * mappin;}
-    else if (width < 800) {speedControl = playListL[row].speed * 0.3 * mappin;}
-    else if (width < 480) {speedControl = playListL[row].speed * 0.1 * mappin;}
-    else {speedControl = playListL[row].speed * 0.3 * mappin;}
+    if (width > screenWidthLarge) {speedControl = playListL[row].speed * speedLargeScreen * mappin;}
+    else if (width < screenWidthPhone) {speedControl = playListL[row].speed * speedPhone * mappin;}
+    else if (width < screenWidthTablet) {speedControl = playListL[row].speed * speedTablet * mappin;}
+    else {speedControl = playListL[row].speed * speedDefault * mappin;}
     thisSpr.velocity.x = speedControl;
-    //// When arrive to the left ent, it changes color and character and come back to the starting position    
-     if (thisSpr.position.x > width + 200) {
+    //// When the character arrives to the right end of the screen, it changes color and character ID and come back to the starting position
+    if (thisSpr.position.x > width + spriteWidth) {
         var oldLabel = thisSpr.getAnimationLabel();
         thisSpr.remove();
         var separateLabel = split(oldLabel, 'L');
-        for(var ch=0; ch<charactorList.length; ch++){
-        var randomColor = floor(random(0, 699.9));
+        for(var ch=0; ch<characterList.length; ch++){
+        var randomColor = floor(random(0, colorArray.length - 0.1));
         var coId = colorArray[randomColor];
         var newL_label = charaId + 'L' + coId;
         var randomX = random(0.01, 1);
-        // Set X position
+        // X position
         var leftrowX = playListL[row].x * randomX; 
-        if (width > 1200) {leftrowX = leftrowX * 0.75;}
-        else if (width < 800) {leftrowX = leftrowX * 2;}
-        else if (width < 480) {leftrowX = leftrowX * 3;}
-        var newSpr = createSprite(leftrowX, playListL[row].y, 200, 300);
-        // Set scale
-        if (width < 800) {newSpr.scale = playListL[row].scale * 0.8;}
-        else if (width < 480) {newSpr.scale = playListL[row].scale * 0.4;}
-        else { newSpr.scale = playListL[row].scale;}        var oldCharaId = int(separateLabel[0]);
-        var charaId = (oldCharaId > charactorList.length - charaInARow - 2) ? oldCharaId + charaInARow + 1 - charactorList.length : oldCharaId + charaInARow + 1;
-        charactorList[charaId].anime[coId].frameDelay = delayValue;
-        newSpr.addAnimation(newL_label, charactorList[charaId].anime[coId]);
+        if (width > screenWidthLarge) {leftrowX = leftrowX * 0.75;}
+        else if (width < screenWidthTablet) {leftrowX = leftrowX * 2;}
+        else if (width < screenWidthPhone) {leftrowX = leftrowX * 3;}
+        var newSpr = createSprite(leftrowX, playListL[row].y, spriteWidth, spriteHeight);
+        // Scale
+        if (width < screenWidthTablet) {newSpr.scale = playListL[row].scale * 0.8;}
+        else if (width < screenWidthPhone) {newSpr.scale = playListL[row].scale * 0.4;}
+        else { newSpr.scale = playListL[row].scale;}
+        var oldCharaId = int(separateLabel[0]);
+        var charaId = (oldCharaId > characterList.length - charaInARow - 2) ? oldCharaId + charaInARow + 1 - characterList.length : oldCharaId + charaInARow + 1;
+        characterList[charaId].anime[coId].frameDelay = delayValue;
+        newSpr.addAnimation(newL_label, characterList[charaId].anime[coId]);
         }
         //Get color ID from new sprites
-        newSpr.setCollider("rectangle", 35, 0, 130, 230);
+        newSpr.setCollider("rectangle", 35, 0, spriteWidth * 0.7, spriteHeight * 0.7);
         newSpr.onMousePressed = function() {
           var newLabel = this.getAnimationLabel();
           var separatedLabel = split(newLabel, 'L');
@@ -367,7 +392,7 @@ for(var row=0; row < playListL.length; row++){
 // textSize(24);
 // text(fr, width/2, 100);
 
-// Draw sprite in the Z-index order + white screens in between
+// Draw sprite in the Z-index order + white screens in between. White screens are to make the color of top rows lighter so it looks like far away
 noStroke();
 fill(255,255,255,25);
 rect(0,0,width, height);
@@ -392,8 +417,8 @@ loadSwitch = true;
 function panelControl() {
   if (loadSwitch) {
   var c = float(colorSwitch);
-  var pr = (c == 0) ? 13 : c - 1;
-  var ne = (c == 13) ? 0 : c + 1;
+  var pr = (c == 0) ? colorList.length - 1 : c - 1;
+  var ne = (c ==  colorList.length - 1) ? 0 : c + 1;
 
 // Update the pannel color & info
     if(pauseSwitch) {  
@@ -408,15 +433,15 @@ function panelControl() {
       issueHM.html(issueData[c].h1);
       issueP.html(issueData[c].body);
       issuePM.html(issueData[c].body);
-      (width < 800) ? bottomPanel.style('top','0') : bottomPanel.style('bottom','0');
-      (width < 800) ? topPanel.style('top','50px') : topPanel.style('bottom','120px');
-      if (width < 800) {topPanel.style('opacity','1');}
+      (width < screenWidthTablet) ? bottomPanel.style('top','0') : bottomPanel.style('bottom','0');
+      (width < screenWidthTablet) ? topPanel.style('top','50px') : topPanel.style('bottom','120px');
+      if (width < screenWidthTablet) {topPanel.style('opacity','1');}
       updateGround();
     } else {
       loop();
-      (width < 800) ? bottomPanel.style('top','unset') : bottomPanel.style('bottom','-200px');
-      (width < 800) ? topPanel.style('top','-100%') : topPanel.style('bottom','-100px');
-      if (width < 800) {topPanel.style('opacity','0');}
+      (width < screenWidthTablet) ? bottomPanel.style('top','unset') : bottomPanel.style('bottom','-200px');
+      (width < screenWidthTablet) ? topPanel.style('top','-100%') : topPanel.style('bottom','-100px');
+      if (width < screenWidthTablet) {topPanel.style('opacity','0');}
     }
     pauseSwitch = !pauseSwitch;
     infoSwitch = !infoSwitch;
@@ -425,7 +450,7 @@ function panelControl() {
 
 function previousColor() {
   var c = float(colorSwitch);
-  colorSwitch = (c == 0) ? 13 : c -1;
+  colorSwitch = (c == 0) ?  colorList.length - 1 : c -1;
   pauseSwitch = true;
   updateGround();
   updateIssuePanel();
@@ -433,7 +458,7 @@ function previousColor() {
 
 function nextColor() {
   var c = float(colorSwitch);
-  colorSwitch = (c == 13) ? 0 : c +1;
+  colorSwitch = (c ==  colorList.length - 1) ? 0 : c +1;
   pauseSwitch = true;
   updateGround();
   updateIssuePanel();
@@ -447,8 +472,8 @@ function updateGround(){
 
 function updateIssuePanel(){
   var c = colorSwitch;
-  var pr = (c == 0) ? 13 : c - 1;
-  var ne = (c == 13) ? 0 : c + 1;
+  var pr = (c == 0) ?  colorList.length - 1 : c - 1;
+  var ne = (c ==  colorList.length - 1) ? 0 : c + 1;
       issueHDiv.style('background-color','rgb('+ colorList[c].r + ',' + colorList[c].g + ',' + colorList[c].b + ')');
       bottomPanel.style('background-color','rgb('+ colorList[c].r + ',' + colorList[c].g + ',' + colorList[c].b + ')');
       prevIssue.style('background-color','rgb('+ colorList[pr].r + ',' + colorList[pr].g + ',' + colorList[pr].b + ')');
@@ -462,26 +487,26 @@ function updateIssuePanel(){
 }
 
 function learnLinkOpen(){
-  var learnURL = 'https://strangersinmyhead.info/explore/' +issueData[colorSwitch].slug;
-  //  var learnURL = 'https://dev.strangersinmyhead.info/explore/' +issueData[colorSwitch].slug;
+  // var learnURL = 'https://strangersinmyhead.info/explore/' +issueData[colorSwitch].slug;
+   var learnURL = 'https://dev.strangersinmyhead.info/explore/' +issueData[colorSwitch].slug;
   window.open(learnURL, "_parent");
 }
 
 function helpLinkOpen(){
-  var helpURL = 'https://strangersinmyhead.info/help/' +issueData[colorSwitch].help;
-  // var helpURL = 'http://dev.strangersinmyhead.info/help/' +issueData[colorSwitch].help;
+  // var helpURL = 'https://strangersinmyhead.info/help/' +issueData[colorSwitch].help;
+  var helpURL = 'https://dev.strangersinmyhead.info/help/' +issueData[colorSwitch].help;
   window.open(helpURL, "_parent");
 }
 
 function voicesLinkOpen(){
-  var voicesURL = 'https://strangersinmyhead.info/voices/';
-  // var voicesURL = 'http://dev.strangersinmyhead.info/voices/';
+  // var voicesURL = 'https://strangersinmyhead.info/voices/' + issueData[colorSwitch].voices;
+  var voicesURL = 'https://dev.strangersinmyhead.info/voices/' + issueData[colorSwitch].voices;
   window.open(voicesURL, "_parent");
 }
 
 function shareLinkOpen(){
-  var shareURL = 'https://strangersinmyhead.info/info/' + colorSwitch + '/' + issueData[colorSwitch].slug;
-  // var shareURL = 'http://dev.strangersinmyhead.info/info/' + colorSwitch + '/' + issueData[colorSwitch].slug;
+  // var shareURL = 'https://strangersinmyhead.info/explore/' + issueData[colorSwitch].slug;
+  var shareURL = 'https://dev.strangersinmyhead.info/explore/' + issueData[colorSwitch].slug;
   var dummy = document.createElement("textarea");
   document.body.appendChild(dummy);
   dummy.value = shareURL;

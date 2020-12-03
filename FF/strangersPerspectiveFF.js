@@ -1,3 +1,23 @@
+/// Created by Siori Kitajima
+/// https://siorikitajima.com/
+/// for http://strangersinmyhead.info/
+/// GNU GENERAL PUBLIC LICENSE V3
+/// https://www.gnu.org/licenses/gpl-3.0.en.html
+
+///////////////////////// CONFIG
+
+var spriteWidth = 200; // Character animation sprite width
+var spriteHeight = 300; // Character animation sprite height
+var spriteFrames = 6; // Character animation sprite frame number
+// Responsive screen sizes
+var screenWidthTablet = 800;
+var screenWidthPhone = 480;
+// Character speed for each screen sizes
+var speedDefault = 0.3;
+var speedTablet = 0.2;
+
+///////////////////////// END CONFIG
+
 var pauseSwitch = true;
 var infoSwitch = false;
 var loadSwitch = false;
@@ -5,7 +25,7 @@ var colorSwitch = 7; // Default to set as Gray
 var charaInARow; // Total number of characters in the row each side at once
 
 var mainFont, bodyFont;
-var topRowR, topRowL, secondRowR, secondRowL, thirdRowR, thirdRowL, fourthRowR, fourthRowL, fifthRowR, fifthRowL;
+var topRowR, topRowL, secondRowR, secondRowL, thirdRowR, thirdRowL;
 
 // DOM elements
 var bottomPanel, topPanel;
@@ -80,8 +100,8 @@ function preload() {
     for(var ch=0; ch<charactorList.length;ch++){
       for(var c=0; c<colorList.length;c++){
         animName = charactorList[ch].name + colorList[c].name + '_anim';
-        animImgA = 'walkersLFF/' + charactorList[ch].name + colorList[c].name +'.png';
-        animName = loadSpriteSheet(animImgA, 200, 300, 6);
+        animImgA = '../walkersLiOS/' + charactorList[ch].name + colorList[c].name +'.png';
+        animName = loadSpriteSheet(animImgA, spriteWidth, spriteHeight, spriteFrames);
         charactorList[ch].anime[c] = loadAnimation(animName);
       }
     }
@@ -116,40 +136,42 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
 
   setFrameRate(28);
-  secondRowR = new Group(); thirdRowR = new Group(); fourthRowR = new Group(); 
-  secondRowL = new Group(); thirdRowL = new Group(); fourthRowL = new Group(); 
+  firstRowR = new Group(); secondRowR = new Group(); thirdRowR = new Group(); 
+  firstRowL = new Group(); secondRowL = new Group(); thirdRowL = new Group(); 
 
 // Setup size, speed and position of each row group
+// -- To increase the density of each row, make "x" value smaller
+// -- To change the overall speed of each row, modify "speed". 
+// -- To change which character show up in the row, modify "start", which is refering characterList ID. This is to avoid too many same character show on the screen at once. When the character arrives to the other end of the screen, it will come back to starting point as a different character.
 playListR = [
-    {"rowID": secondRowR, "x": width*2.5, "y":height/7, "scale":0.5, "speed": -4, "start":0},
-    {"rowID": thirdRowR, "x": width*3, "y":height/4, "scale":0.7, "speed": -5, "start":4},
-    {"rowID": fourthRowR, "x": width*3.5, "y":height/2, "scale": 1, "speed": -6.5, "start":8}];
+  {"rowID": firstRowR, "x": width*2.5, "y":height/7, "scale":0.5, "speed": -4, "start":0},
+  {"rowID": secondRowR, "x": width*3, "y":height/4, "scale":0.7, "speed": -5, "start":4},
+  {"rowID": thirdRowR, "x": width*3.5, "y":height/2, "scale": 1, "speed": -6.5, "start":8}];
 playListL = [
-    {"rowID": secondRowL, "x": -(width*1.5), "y":height/7 + 30, "scale":0.55, "speed": 4, "start":2},
-    {"rowID": thirdRowL, "x": -(width*2), "y":height/4 + 40, "scale":0.75, "speed": 5, "start":6},
-    {"rowID": fourthRowL, "x": -(width*2.5), "y":height/2 + 50, "scale": 1.05, "speed": 6.5, "start":0}];
+  {"rowID": firstRowL, "x": -(width*1.5), "y":height/7 + 30, "scale":0.55, "speed": 4, "start":2},
+  {"rowID": secondRowL, "x": -(width*2), "y":height/4 + 40, "scale":0.75, "speed": 5, "start":6},
+  {"rowID": thirdRowL, "x": -(width*2.5), "y":height/2 + 50, "scale": 1.05, "speed": 6.5, "start":0}];
 
 // Assign sprites to Right Rows
     for(var r=0; r<playListR.length;r++){
       for(var ch = 0; ch < charaInARow; ch++){
-        var chs = playListR[r].start + ch; // The character to load
+        var chs = playListR[r].start + ch; // The character ID to start loading for the row
         chs = (chs >= charactorList.length) ? chs = chs - 8 : chs = chs;
-        var randomColor = floor(random(0, 699.9));
+        var randomColor = floor(random(0, colorArray.length - 0.1));
         var coId = colorArray[randomColor]; // Pull a color from the array
         var randomX = random(0.01, 1);
-        // Set X position
+        // Set starting X position of characters
         var rightrowX = map(randomX, 0, 1, width, playListR[r].x);
-        if (width < 480) {rightrowX = rightrowX * 2;}
+        if (width < screenWidthPhone) {rightrowX = rightrowX * 2;}
         else {rightrowX = rightrowX;}
         var animSpr = charactorList[chs].name + colorList[coId].name + 'R_spr';
         var animLab = str(charactorList[chs].id + 'R' + coId);
         charactorList[chs].anime[coId].frameDelay = floor(random(4,6.9)); // Sprite animation frame delay: the bigger number the greater delay
-        animSpr = createSprite(rightrowX, playListR[r].y, 200, 300);
-        // Set scale
+        animSpr = createSprite(rightrowX, playListR[r].y, spriteWidth, spriteHeight);
         animSpr.scale = playListR[r].scale;
         animSpr.addAnimation(animLab, charactorList[chs].anime[coId]);
-        //// Get color ID when clicked and hover
-        animSpr.setCollider("rectangle", 35, 0, 200, 300);
+        // Get the color ID of the character when clicked and hover
+        animSpr.setCollider("rectangle", 35, 0, spriteWidth*0.7, spriteHeight*0.7);
         animSpr.onMousePressed = function() {
           var newLabel = this.getAnimationLabel();
           var separatedLabel = split(newLabel, 'R');
@@ -171,22 +193,21 @@ playListL = [
       for(var ch=0; ch < charaInARow; ch++){
         var chs = playListL[r].start + ch;
         chs = (chs >= charactorList.length) ? chs = chs - 8 : chs = chs;
-        var randomColor = floor(random(0, 699.9));
+        var randomColor = floor(random(0, colorArray.length - 0.1));
         var coId = colorArray[randomColor];
         var randomX = random(0.01, 1);
-        // Set X position
+        // Set starting X position of characters
         var leftrowX = playListL[r].x * randomX;
-        if (width < 480) {leftrowX = leftrowX * 2;}
+        if (width < screenWidthPhone) {leftrowX = leftrowX * 2;}
         else {rightrowX = leftrowX;}
         var animSpr = charactorList[chs].name + colorList[coId].name + 'L_spr';
         var animLab = str(charactorList[chs].id + 'L' + coId);
         charactorList[chs].anime[coId].frameDelay = floor(random(4,6.9));
-        animSpr = createSprite(leftrowX, playListL[r].y, 200, 300);
-        // Set scale
+        animSpr = createSprite(leftrowX, playListL[r].y, spriteWidth, spriteHeight);
         animSpr.scale = playListL[r].scale;
         animSpr.addAnimation(animLab, charactorList[chs].anime[coId]);
-        //// Get color ID when clicked and hover
-        animSpr.setCollider("rectangle", 35, 0, 130, 230);
+        // Get the color ID of the character when clicked and hover
+        animSpr.setCollider("rectangle", 35, 0, spriteWidth*0.7, spriteHeight*0.7);
         animSpr.onMousePressed = function() {
           var newLabel = this.getAnimationLabel();
           var separatedLabel = split(newLabel, 'L');
@@ -215,34 +236,33 @@ for(var row=0; row < playListR.length; row++){
     cloneRow.splice(i,1);
     var delayValue = floor(random(4,6.9));
     var mappin = map((i + 1) / delayValue, 1/5, rowID.length/3, 0.8, 1.6); 
-    // Set velocity
+    // Set the velocity of the character
     var speedControl;
-    (width > 800) ? speedControl = playListR[row].speed * 0.3 * mappin : speedControl = playListR[row].speed * 0.2 * mappin;
+    (width > screenWidthTablet) ? speedControl = playListR[row].speed * speedDefault * mappin : speedControl = playListR[row].speed * speedTablet * mappin;
     thisSpr.velocity.x = speedControl;
-    //// When arrive to the left ent, it changes color and character and come back to the starting position
-     if (thisSpr.position.x < - 200) {
+    //// When the character arrives to the left end of the screen, it changes color and character ID and come back to the starting position
+    if (thisSpr.position.x < - spriteWidth) {
         var oldLabel = thisSpr.getAnimationLabel();
         thisSpr.remove();
         var separateLabel = split(oldLabel, 'R');
         for(var ch=0; ch<charactorList.length; ch++){
-        var randomColor = floor(random(0, 699.9));
+        var randomColor = floor(random(0, colorArray.length - 0.1));
         var coId = colorArray[randomColor];
         var oldCharaId = int(separateLabel[0]);
         var charaId = (oldCharaId > charactorList.length - charaInARow - 2) ? oldCharaId + charaInARow + 1 - charactorList.length : oldCharaId + charaInARow + 1;
         var newR_label = charaId + 'R' + coId;
         var randomX = random(0.01, 1);
-        // Set X position
+        // X position
         var rightrowX = map(randomX, 0, 1, width, playListR[row].x);
-        if (width < 480) {rightrowX = rightrowX * 2;}
+        if (width < screenWidthPhone) {rightrowX = rightrowX * 2;}
         else {rightrowX = rightrowX;}
-        var newSpr = createSprite(rightrowX, playListR[row].y, 200, 300);
-        // Set scale
+        var newSpr = createSprite(rightrowX, playListR[row].y, spriteWidth, spriteHeight);
         newSpr.scale = playListR[row].scale;
         charactorList[charaId].anime[coId].frameDelay = delayValue;
         newSpr.addAnimation(newR_label, charactorList[charaId].anime[coId]);
         }
         //Get color ID from new sprites
-        newSpr.setCollider("rectangle", 35, 0, 200, 300);
+        newSpr.setCollider("rectangle", 35, 0, spriteWidth*0.7, spriteHeight*0.7);
         newSpr.onMousePressed = function() {
           var newLabel = this.getAnimationLabel();
           var separatedLabel = split(newLabel, 'R');
@@ -270,33 +290,31 @@ for(var row=0; row < playListL.length; row++){
     thisSpr.mirrorX(-1);
     // Set velocity
     var speedControl;
-    (width > 800) ? speedControl = playListL[row].speed * 0.3 * mappin : speedControl = playListL[row].speed * 0.2 * mappin;
+    (width > screenWidthTablet) ? speedControl = playListL[row].speed * speedDefault * mappin : speedControl = playListL[row].speed * speedTablet * mappin;
     thisSpr.velocity.x = speedControl;
-    //// When arrive to the left ent, it changes color and character and come back to the starting position    
-     if (thisSpr.position.x > width + 200) {
+    //// When the character arrives to the right end of the screen, it changes color and character ID and come back to the starting position
+    if (thisSpr.position.x > width + spriteWidth) {
         var oldLabel = thisSpr.getAnimationLabel();
         thisSpr.remove();
         var separateLabel = split(oldLabel, 'L');
         for(var ch=0; ch<charactorList.length; ch++){
-        var randomColor = floor(random(0, 699.9));
+        var randomColor = floor(random(0, colorArray.length - 0.1));
         var coId = colorArray[randomColor];
         var newL_label = charaId + 'L' + coId;
         var randomX = random(0.01, 1);
-        // Set X position
+        // X position
         var leftrowX = playListL[row].x * randomX;
-        if (width < 480) {leftrowX = leftrowX * 2;}
+        if (width < screenWidthPhone) {leftrowX = leftrowX * 2;}
         else {leftrowX = leftrowX;}
-        var newSpr = createSprite(leftrowX, playListL[row].y, 200, 300);
-        // Set scale
+        var newSpr = createSprite(leftrowX, playListL[row].y, spriteWidth, spriteHeight);
         newSpr.scale = playListL[row].scale;
         var oldCharaId = int(separateLabel[0]);
-        //var oldCharaId = separateLabel[0];
         var charaId = (oldCharaId > charactorList.length - charaInARow - 2) ? oldCharaId + charaInARow + 1 - charactorList.length : oldCharaId + charaInARow + 1;
         charactorList[charaId].anime[coId].frameDelay = delayValue;
         newSpr.addAnimation(newL_label, charactorList[charaId].anime[coId]);
         }
         //Get color ID from new sprites
-        newSpr.setCollider("rectangle", 35, 0, 200, 300);
+        newSpr.setCollider("rectangle", 35, 0, spriteWidth*0.7, spriteHeight*0.7);
         newSpr.onMousePressed = function() {
           var newLabel = this.getAnimationLabel();
           var separatedLabel = split(newLabel, 'L');
@@ -323,12 +341,12 @@ for(var row=0; row < playListL.length; row++){
 
 // Draw sprite in the Z-index order + white screens in between
 noStroke();
+drawSprites(firstRowR);
+drawSprites(firstRowL);
 drawSprites(secondRowR);
 drawSprites(secondRowL);
 drawSprites(thirdRowR);
 drawSprites(thirdRowL);
-drawSprites(fourthRowR);
-drawSprites(fourthRowL);
 
 loadSwitch = true;
 };
@@ -337,8 +355,8 @@ function mouseClicked() {
    if (loadSwitch) {
 
   var c = float(colorSwitch);
-  var pr = (c == 0) ? 13 : c - 1;
-  var ne = (c == 13) ? 0 : c + 1;
+  var pr = (c == 0) ? colorList.length - 1 : c - 1;
+  var ne = (c == colorList.length - 1) ? 0 : c + 1;
 
 // Update the pannel color & info
     if(pauseSwitch) {  
@@ -353,15 +371,15 @@ function mouseClicked() {
       issueHM.html(issueData[c].h1);
       issueP.html(issueData[c].body);
       issuePM.html(issueData[c].body);
-      (width < 800) ? bottomPanel.style('top','0') : bottomPanel.style('bottom','0');
-      (width < 800) ? topPanel.style('top','50px') : topPanel.style('bottom','120px');
-      if (width < 800) {topPanel.style('opacity','1');}
+      (width < screenWidthTablet) ? bottomPanel.style('top','0') : bottomPanel.style('bottom','0');
+      (width < screenWidthTablet) ? topPanel.style('top','50px') : topPanel.style('bottom','120px');
+      if (width < screenWidthTablet) {topPanel.style('opacity','1');}
       updateGround();
     } else {
       loop();
-      (width < 800) ? bottomPanel.style('top','unset') : bottomPanel.style('bottom','-200px');
-      (width < 800) ? topPanel.style('top','-100%') : topPanel.style('bottom','-100px');
-      if (width < 800) {topPanel.style('opacity','0');}
+      (width < screenWidthTablet) ? bottomPanel.style('top','unset') : bottomPanel.style('bottom','-200px');
+      (width < screenWidthTablet) ? topPanel.style('top','-100%') : topPanel.style('bottom','-100px');
+      if (width < screenWidthTablet) {topPanel.style('opacity','0');}
     }
     pauseSwitch = !pauseSwitch;
     infoSwitch = !infoSwitch;
@@ -370,14 +388,14 @@ function mouseClicked() {
 
 function previousColor() {
   var c = float(colorSwitch);
-  colorSwitch = (c == 0) ? 13 : c -1;
+  colorSwitch = (c == 0) ? colorList.length - 1 : c -1;
   pauseSwitch = true;
   updateGround();
 };
 
 function nextColor() {
   var c = float(colorSwitch);
-  colorSwitch = (c == 13) ? 0 : c +1;
+  colorSwitch = (c == colorList.length - 1) ? 0 : c +1;
   pauseSwitch = true;
   updateGround();
 };
@@ -389,29 +407,29 @@ function updateGround(){
 }
 
 function learnLinkOpen(){
-  var learnURL = 'https://strangersinmyhead.info/explore/' + issueData[colorSwitch].slug;
-  // var learnURL = 'http://dev.strangersinmyhead.info/explore/' +issueData[colorSwitch].slug;
+  // var learnURL = 'https://strangersinmyhead.info/explore/' + issueData[colorSwitch].slug;
+  var learnURL = 'https://dev.strangersinmyhead.info/explore/' +issueData[colorSwitch].slug;
   clearCache();
   window.open(learnURL, "_parent");
 }
 
 function helpLinkOpen(){
-  var helpURL = 'https://strangersinmyhead.info/help/' + issueData[colorSwitch].help;
-  // var helpURL = 'http://dev.strangersinmyhead.info/help/' +issueData[colorSwitch].help;
+  // var helpURL = 'https://strangersinmyhead.info/help/' + issueData[colorSwitch].help;
+  var helpURL = 'https://dev.strangersinmyhead.info/help/' +issueData[colorSwitch].help;
   clearCache();
   window.open(helpURL, "_parent");
 }
 
 function voicesLinkOpen(){
-  var voicesURL = 'https://strangersinmyhead.info/voices/';
-  // var voicesURL = 'http://dev.strangersinmyhead.info/voices/';
+  // var voicesURL = 'https://strangersinmyhead.info/voices/' + issueData[colorSwitch].voices;
+  var voicesURL = 'https://dev.strangersinmyhead.info/voices/' + issueData[colorSwitch].voices;
   clearCache();
   window.open(voicesURL, "_parent");
 }
 
 function shareLinkOpen(){
-  var shareURL = 'https://strangersinmyhead.info/info/' + colorSwitch + '/' + issueData[colorSwitch].slug;
-  // var shareURL = 'http://dev.strangersinmyhead.info/info/' + colorSwitch + '/' + issueData[colorSwitch].slug;
+  // var shareURL = 'https://strangersinmyhead.info/explore/' + issueData[colorSwitch].slug;
+  var shareURL = 'https://dev.strangersinmyhead.info/explore/' + issueData[colorSwitch].slug;
   var dummy = document.createElement("textarea");
   document.body.appendChild(dummy);
   dummy.value = shareURL;
