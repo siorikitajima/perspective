@@ -1,5 +1,5 @@
 # Perspective
-[*Perspective*](https://siorikitajima.github.io/perspective/) is a generative data visualization animation initially created for the Singapore based mental health resource site strangersinmyhead.info by [Siori Kitajima](https://siorikitajima.com) and [PatternBased](https://patternbased.com)
+[*Perspective*](https://siorikitajima.github.io/perspective/) is a generative data visualization animation initially created for the Singapore based mental health resource site [strangersinmyhead.info](https://strangersinmyhead.info) by [Siori Kitajima](https://siorikitajima.com) and [PatternBased](https://patternbased.com)
 
 # 
 
