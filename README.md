@@ -8,7 +8,7 @@
 
 This generative animation shows how many people in Singapore have experienced mental health issues in their life. 
 
-20 silhouetted characters walk past the screen randomly, their color generated from this array: 'model'. A color ID assigned to each character is picked randomly from the model (in v1.0, 700 samples are in the model) every time. 
+20 silhouetted characters walk past the screen randomly, their color generated from this model 'colorArray'. A color ID assigned to each character is picked randomly from the model (in v1.0, 700 samples are in the model) every time. 
 
 These numbers are based on real world stats and adapted a bit to make sense as a whole. The current numbers are set purely for creating a somewhat realistic simulation, but not intended to be scientifically correct, unfortunately. The excuse is that we didn't find a perfect set of numbers that contain all the issues in the same region at the same time period, and had to patch different studies, adjusting to make up for minor conflicts. We are itching to update this with a perfect dataset one day. Please let [us](https://patternbased.com/contact) know if you ever come across a better study.
 
