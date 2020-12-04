@@ -7,11 +7,14 @@
     <title>Perspective Animation for Strangers</title>
     <link rel="stylesheet" href="walking.css">
     <script>
-        document.addEventListener("DOMContentLoaded", function() { 
-            setTimeout(function(){ 
+        document.onreadystatechange = function () {
+            if (document.readyState === "complete") {
+                console.log(document.readyState);
+                setTimeout(function(){
                 document.getElementById("modalBG").style.display = "none";
-             }, 1000);
-        });
+                }, 4000);
+            }
+        }
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.4/p5.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.4/addons/p5.dom.js"></script>
@@ -28,7 +31,16 @@
     
     <!-- Modal -->
     <div id="modalBG">
-        <div class="loadingSpinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+        <div id="greeting">
+            <h1>&#47;&#47; Hello Stranger &#47;&#47;</h1>
+            <p class="top-border">These mini data stories are based on real-world numbers. You are not alone.</p>
+            <img src="images/loading-Tiny.gif" alt="loading"/>
+            <div class="progress" id="PreLoaderBar">
+                <div class="indeterminate"></div>
+            </div>
+            <!-- <p class="loading"><span>LOADING</span></p> -->
+        </div>
+        <!-- <div class="loadingSpinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div> -->
     </div>
 
     <div id="topPanel">

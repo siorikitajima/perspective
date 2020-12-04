@@ -261,7 +261,7 @@ a:-webkit-any-link {
 
 
   /* spinner */
-	.loadingSpinner {
+	/* .loadingSpinner {
 		position: relative;
 		width: 80px;
 		height: 80px;
@@ -327,19 +327,55 @@ a:-webkit-any-link {
 		top: 56px;
 		left: 56px;
 		animation-delay: -1.6s;
-	}
+	} */
 
-/** modal **/
+  /** Github Button **/
 
-	 #modalBG {
+  #githubBtn {
+    height: 30px;
+    width: 85px;
+    border-radius: 15px;
+    border: #222222 2px solid;
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 600;
+    display: flex;
+    opacity: 0.4;
+    transition-duration: 300ms;
+  }
+  #githubBtn img {
+    height: 20px;
+    margin: 4px;
+  }
+  #githubBtn p {
+    font-size: 0.9em;
+    margin-top: 6px;
+  }
+  #githubBtn:hover {
+    opacity: 0.2;
+    transition-duration: 300ms;
+  }
+
+  @media only screen and (max-width: 800px) {
+    #githubBtn{
+      top: unset;
+      left: 10px;
+      bottom: 10px;
+    }
+  }
+
+  /** modal **/
+
+  #modalBG {
 		position: fixed;
-		background: rgba(206, 206, 206, 0.9);
+		background: rgba(32, 32, 32, 0.95);
 		top: 0;
 		left: 0;
 		width: 100%;
 		height: 100vh;
 		z-index: 9999;
-  }  
+  } 
   
   #copied {
     position: fixed;
@@ -362,30 +398,119 @@ a:-webkit-any-link {
     }
   }
 
-  #githubBtn {
-    height: 40px;
-    width: 100px;
-    border: #222222 2px solid;
-    border-radius: 20px;
+  .progress {
+    position: relative;
+    height: 2px;
+    display: block;
+    width: 100%;
+    border-radius: 2px;
+    background-clip: padding-box;
+    /*margin: 0.5rem 0 1rem 0;*/
+    overflow: hidden;
+    top: 50%;
+  }
+
+  .progress .indeterminate {
+background-color:#222222; }
+  .progress .indeterminate:before {
+    content: '';
+    position: absolute;
+    background-color: #DA2C5E;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    will-change: left, right;
+    -webkit-animation: indeterminate 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
+            animation: indeterminate 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite; }
+  .progress .indeterminate:after {
+    content: '';
+    position: absolute;
+    background-color: rgb(224, 224, 224);
+    top: 0;
+    left: 0;
+    bottom: 0;
+    will-change: left, right;
+    -webkit-animation: indeterminate-short 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+            animation: indeterminate-short 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+    -webkit-animation-delay: 1.15s;
+            animation-delay: 1.15s; }
+  #greeting {
+    width: fit-content;
+    height: fit-content;
+    text-align: center;
+    margin: 0 auto;
     position: fixed;
-    top: 20px;
-    left: 20px;
-    z-index: 2000;
-    display: flex;
-    opacity: 0.4;
-    transition-duration: 300ms;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: rgb(224, 224, 224);
   }
-  #githubBtn img {
-    height: 28px;
-    margin: 6px;
+  #greeting img {
+    width: 100px;
   }
-  #githubBtn p {
+  #greeting h1 {
+    font-family: 'Playfair Display', serif;
+  }
+  #greeting p {
+    width: 400px;
+    max-width: 90vw;
+    font-size: 1.2em;
+    line-height: 1.7em;
+    position: relative;
+  }
+  #greeting .top-border::after {
+    content: "";
+    height: 2px;
+    width: 100%;
+    position: absolute;
+    top: -8px;
+    left: 0;
+    background: #DA2C5E;
+  }
+  #greeting .loading {
+    margin-top: 10px;
     font-size: 0.9em;
-    font-family: 'Montserrat', sans-serif;
     font-weight: bold;
-    margin-top: 12px;
+    color:  #DA2C5E;
   }
-  #githubBtn:hover {
-    opacity: 0.2;
-    transition-duration: 300ms;
-  }
+  
+  @-webkit-keyframes indeterminate {
+    0% {
+      left: -35%;
+      right: 100%; }
+    60% {
+      left: 100%;
+      right: -90%; }
+    100% {
+      left: 100%;
+      right: -90%; } }
+  @keyframes indeterminate {
+    0% {
+      left: -35%;
+      right: 100%; }
+    60% {
+      left: 100%;
+      right: -90%; }
+    100% {
+      left: 100%;
+      right: -90%; } }
+  @-webkit-keyframes indeterminate-short {
+    0% {
+      left: -200%;
+      right: 100%; }
+    60% {
+      left: 107%;
+      right: -8%; }
+    100% {
+      left: 107%;
+      right: -8%; } }
+  @keyframes indeterminate-short {
+    0% {
+      left: -200%;
+      right: 100%; }
+    60% {
+      left: 107%;
+      right: -8%; }
+    100% {
+      left: 107%;
+      right: -8%; } }
