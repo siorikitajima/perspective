@@ -331,7 +331,7 @@ a:-webkit-any-link {
 
   #githubBtn {
     height: 30px;
-    width: 85px;
+    width: fit-content;
     border-radius: 15px;
     border: #222222 2px solid;
     position: fixed;
@@ -349,6 +349,8 @@ a:-webkit-any-link {
   #githubBtn p {
     font-size: 0.9em;
     margin-top: 6px;
+    color: #222222;
+    margin-right: 6px;
   }
   #githubBtn:hover {
     opacity: 0.2;
@@ -405,11 +407,11 @@ a:-webkit-any-link {
     background-clip: padding-box;
     /*margin: 0.5rem 0 1rem 0;*/
     overflow: hidden;
-    top: 50%;
+    /* top: 50%; */
   }
 
   .progress .indeterminate {
-background-color:#222222; }
+    background-color:#222222; }
   .progress .indeterminate:before {
     content: '';
     position: absolute;

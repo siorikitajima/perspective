@@ -349,6 +349,12 @@ drawSprites(thirdRowR);
 drawSprites(thirdRowL);
 
 loadSwitch = true;
+
+  if(loadSwitch) {
+    setTimeout(function(){
+    document.getElementById("modalBG").style.display = "none";
+    }, 1500);
+  }
 };
 
 function mouseClicked() {
@@ -407,29 +413,29 @@ function updateGround(){
 }
 
 function learnLinkOpen(){
-  // var learnURL = 'https://strangersinmyhead.info/explore/' + issueData[colorSwitch].slug;
-  var learnURL = 'https://dev.strangersinmyhead.info/explore/' +issueData[colorSwitch].slug;
+  var learnURL = 'https://strangersinmyhead.info/explore/' + issueData[colorSwitch].slug;
+  // var learnURL = 'https://dev.strangersinmyhead.info/explore/' +issueData[colorSwitch].slug;
   clearCache();
   window.open(learnURL, "_parent");
 }
 
 function helpLinkOpen(){
-  // var helpURL = 'https://strangersinmyhead.info/help/' + issueData[colorSwitch].help;
-  var helpURL = 'https://dev.strangersinmyhead.info/help/' +issueData[colorSwitch].help;
+  var helpURL = 'https://strangersinmyhead.info/help/' + issueData[colorSwitch].help;
+  // var helpURL = 'https://dev.strangersinmyhead.info/help/' +issueData[colorSwitch].help;
   clearCache();
   window.open(helpURL, "_parent");
 }
 
 function voicesLinkOpen(){
-  // var voicesURL = 'https://strangersinmyhead.info/voices/' + issueData[colorSwitch].voices;
-  var voicesURL = 'https://dev.strangersinmyhead.info/voices/' + issueData[colorSwitch].voices;
+  var voicesURL = 'https://strangersinmyhead.info/voices/' + issueData[colorSwitch].voices;
+  // var voicesURL = 'https://dev.strangersinmyhead.info/voices/' + issueData[colorSwitch].voices;
   clearCache();
   window.open(voicesURL, "_parent");
 }
 
 function shareLinkOpen(){
-  // var shareURL = 'https://strangersinmyhead.info/explore/' + issueData[colorSwitch].slug;
-  var shareURL = 'https://dev.strangersinmyhead.info/explore/' + issueData[colorSwitch].slug;
+  var shareURL = 'https://strangersinmyhead.info/explore/' + issueData[colorSwitch].slug;
+  // var shareURL = 'https://dev.strangersinmyhead.info/explore/' + issueData[colorSwitch].slug;
   var dummy = document.createElement("textarea");
   document.body.appendChild(dummy);
   dummy.value = shareURL;
