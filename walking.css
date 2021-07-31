@@ -73,7 +73,7 @@ a:-webkit-any-link {
 }
 
   #topPanel{
-    height: 50px;
+    height: 10px;
     width: 100%;
     position: fixed;
     bottom: -100px;
